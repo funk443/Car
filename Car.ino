@@ -77,6 +77,31 @@ void loop() {
         //Serial.print(degVer);
       }
     }
+
+    if(c == 'F')
+    {
+      Serial.print("Forward");
+    }
+
+    if(c == 'L')
+    {
+      Serial.print("Left");
+    }
+
+    if(c == 'R')
+    {
+      Serial.print("Right");
+    }
+
+    if(c == 'B')
+    {
+      Serial.print("Backward");
+    }
+
+    if(c == 'S')
+    {
+      Serial.print("Stop");
+    }
   }
 
   if(Serial.available())
