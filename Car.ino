@@ -8,12 +8,19 @@
 SoftwareSerial BTtrans(rx, tx);
 AF_DCMotor Lmotor(4);
 AF_DCMotor Rmotor(5);
+Servo Hor;
+Servo Ver;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   BTtrans.begin(9600);
   BTtrans.setTimeout(100);
+
+  Hor.attach(10);
+  Ver.attach(9);
+  Hor.write(0);
+  Ver.write(0);
 
   Lmotor.setSpeed(0);
   Lmotor.run(RELEASE);
@@ -39,7 +46,35 @@ void loop() {
       {
         Lmotor.setSpeed(Power);
         Rmotor.setSpeed(Power);
-        Serial.print(Power);
+        //Serial.print(Power);
+      }
+    }
+
+    if(c == 'H')
+    {
+      int degHor;
+
+      degHor = BTtrans.parseInt();
+
+      
+      if(c != '#')
+      {
+        Hor.write(degHor);
+        //Serial.print(degHor);
+      }
+    }
+
+    if(c == 'V')
+    {
+      int degVer;
+
+      degVer = BTtrans.parseInt();
+
+      
+      if(c != '#')
+      {
+        Ver.write(degVer);
+        //Serial.print(degVer);
       }
     }
   }
