@@ -1,3 +1,4 @@
+#include <hcsr04.h>
 #include <AFMotor.h>
 #include <SoftwareSerial.h>
 #include <Servo.h>
