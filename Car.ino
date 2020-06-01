@@ -6,10 +6,12 @@
 #define tx A0
 
 SoftwareSerial BTtrans(rx, tx);
-AF_DCMotor Lmotor(4);
-AF_DCMotor Rmotor(5);
+AF_DCMotor Lmotor(3);
+AF_DCMotor Rmotor(4);
 Servo Hor;
 Servo Ver;
+
+void BTcontrol();
 
 void setup() {
   // put your setup code here, to run once:
@@ -31,6 +33,18 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  BTcontrol();
+  
+  if(Serial.available())
+  {
+    char c = Serial.read();
+    BTtrans.print(c);
+  }
+}
+
+void BTcontrol()
+{
   if(BTtrans.available())
   {
     char c = BTtrans.read();
@@ -38,27 +52,23 @@ void loop() {
     if(c == 'P')
     {
       int Power;
-
-      Power = BTtrans.parseInt();
-
       
       if(c != '#')
       {
+        Power = BTtrans.parseInt();
         Lmotor.setSpeed(Power);
         Rmotor.setSpeed(Power);
-        //Serial.print(Power);
+        Serial.print(Power);
       }
     }
 
     if(c == 'H')
     {
       int degHor;
-
-      degHor = BTtrans.parseInt();
-
       
       if(c != '#')
       {
+        degHor = BTtrans.parseInt();
         Hor.write(degHor);
         //Serial.print(degHor);
       }
@@ -68,11 +78,9 @@ void loop() {
     {
       int degVer;
 
-      degVer = BTtrans.parseInt();
-
-      
       if(c != '#')
       {
+        degVer = BTtrans.parseInt();
         Ver.write(degVer);
         //Serial.print(degVer);
       }
@@ -81,32 +89,37 @@ void loop() {
     if(c == 'F')
     {
       Serial.print("Forward");
+      Lmotor.run(FORWARD);
+      Rmotor.run(FORWARD);
+      
     }
 
     if(c == 'L')
     {
       Serial.print("Left");
+      Lmotor.run(BACKWARD);
+      Rmotor.run(FORWARD);
     }
 
     if(c == 'R')
     {
       Serial.print("Right");
+      Lmotor.run(FORWARD);
+      Rmotor.run(BACKWARD);
     }
 
     if(c == 'B')
     {
       Serial.print("Backward");
+      Lmotor.run(BACKWARD);
+      Rmotor.run(BACKWARD);
     }
 
     if(c == 'S')
     {
       Serial.print("Stop");
+      Lmotor.run(RELEASE);
+      Rmotor.run(RELEASE);
     }
-  }
-
-  if(Serial.available())
-  {
-    char c = Serial.read();
-    BTtrans.print(c);
   }
 }
