@@ -4,6 +4,7 @@
 
 #define rx A1
 #define tx A0
+#define laser A2
 
 SoftwareSerial BTtrans(rx, tx);
 AF_DCMotor Lmotor(3);
@@ -29,6 +30,9 @@ void setup() {
 
   Rmotor.setSpeed(0);
   Rmotor.run(RELEASE);
+
+  pinMode(A2, OUTPUT);
+  digitalWrite(laser, LOW);
 }
 
 void loop() {
@@ -70,7 +74,7 @@ void BTcontrol()
       {
         degHor = BTtrans.parseInt();
         Hor.write(degHor);
-        //Serial.print(degHor);
+        Serial.print(degHor);
       }
     }
 
@@ -82,7 +86,7 @@ void BTcontrol()
       {
         degVer = BTtrans.parseInt();
         Ver.write(degVer);
-        //Serial.print(degVer);
+        Serial.print(degVer);
       }
     }
 
@@ -120,6 +124,16 @@ void BTcontrol()
       Serial.print("Stop");
       Lmotor.run(RELEASE);
       Rmotor.run(RELEASE);
+    }
+
+    if(c == 'O')
+    {
+      digitalWrite(laser, HIGH);
+    }
+
+    if(c == 'P')
+    {
+      digitalWrite(laser, LOW);
     }
   }
 }
