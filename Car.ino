@@ -6,12 +6,15 @@
 #define rx A1
 #define tx A0
 #define laser A2
+#define tri A3
+#define ech A4
 
 SoftwareSerial BTtrans(rx, tx);
 AF_DCMotor Lmotor(3);
 AF_DCMotor Rmotor(4);
 Servo Hor;
 Servo Ver;
+HCSR04 sonic(tri, ech, 20, 4000);
 
 void BTcontrol();
 
@@ -40,7 +43,7 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   BTcontrol();
-  
+
   if(Serial.available())
   {
     char c = Serial.read();
