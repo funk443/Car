@@ -41,14 +41,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
   BTcontrol();
-
-  if(Serial.available())
-  {
-    char c = Serial.read();
-    BTtrans.print(c);
-  }
 }
 
 void BTcontrol()
