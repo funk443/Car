@@ -114,6 +114,8 @@ void BTcontrol()
       Serial.print("Backward");
       Lmotor.run(BACKWARD);
       Rmotor.run(BACKWARD);
+      BTtrans.print(sonic.distanceInMillimeters());
+      Serial.print(sonic.distanceInMillimeters());
     }
 
     if(c == 'S')
