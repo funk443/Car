@@ -46,15 +46,15 @@ void loop() {
 
 void BTcontrol()
 {
-  if(BTtrans.available())
+  if (BTtrans.available())
   {
     char c = BTtrans.read();
-    
-    if(c == 'P')
+
+    if (c == 'P')
     {
       int Power;
-      
-      if(c != '#')
+
+      if (c != '#')
       {
         Power = BTtrans.parseInt();
         Lmotor.setSpeed(Power);
@@ -63,11 +63,11 @@ void BTcontrol()
       }
     }
 
-    if(c == 'H')
+    if (c == 'H')
     {
       int degHor;
-      
-      if(c != '#')
+
+      if (c != '#')
       {
         degHor = BTtrans.parseInt();
         Hor.write(degHor);
@@ -75,11 +75,11 @@ void BTcontrol()
       }
     }
 
-    if(c == 'V')
+    if (c == 'V')
     {
       int degVer;
 
-      if(c != '#')
+      if (c != '#')
       {
         degVer = BTtrans.parseInt();
         Ver.write(degVer);
@@ -87,32 +87,32 @@ void BTcontrol()
       }
     }
 
-    if(c == 'F')
+    if (c == 'F')
     {
       Serial.print("Forward");
       Lmotor.run(FORWARD);
       Rmotor.run(FORWARD);
-      
+
     }
 
-    if(c == 'L')
+    if (c == 'L')
     {
       Serial.print("Left");
       Lmotor.run(BACKWARD);
       Rmotor.run(FORWARD);
     }
 
-    if(c == 'R')
+    if (c == 'R')
     {
       Serial.print("Right");
       Lmotor.run(FORWARD);
       Rmotor.run(BACKWARD);
     }
 
-    if(c == 'B')
+    if (c == 'B')
     {
       int distance = sonic.distanceInMillimeters();
-      
+
       Serial.print("Backward");
       Lmotor.run(BACKWARD);
       Rmotor.run(BACKWARD);
@@ -120,21 +120,22 @@ void BTcontrol()
       BTtrans.print(distance);
       BTtrans.write(13);
       Serial.print(distance);
+
     }
 
-    if(c == 'S')
+    if (c == 'S')
     {
       Serial.print("Stop");
       Lmotor.run(RELEASE);
       Rmotor.run(RELEASE);
     }
 
-    if(c == 'O')
+    if (c == 'O')
     {
       digitalWrite(laser, HIGH);
     }
 
-    if(c == 'P')
+    if (c == 'P')
     {
       digitalWrite(laser, LOW);
     }
