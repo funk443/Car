@@ -133,7 +133,8 @@ void BTcontrol()
             break;
           }
 
-          delay(200);
+          delay(500);
+
         }
       }
 
