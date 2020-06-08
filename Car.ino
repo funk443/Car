@@ -115,11 +115,27 @@ void BTcontrol()
       Lmotor.run(BACKWARD);
       Rmotor.run(BACKWARD);
 
-      int distance = sonic.distanceInMillimeters();
-      BTtrans.print("@");
-      BTtrans.print(distance);
-      BTtrans.write(13);
-      Serial.print(distance);
+
+      while (true)
+      {
+        int distance = sonic.distanceInMillimeters();
+        BTtrans.print("@");
+        BTtrans.print(distance);
+        BTtrans.write(13);
+        Serial.print(distance);
+
+        if(BTtrans.available())
+        {
+          c = BTtrans.read();
+
+          if(c == 'S')
+          {
+            break;
+          }
+
+          delay(200);
+        }
+      }
 
     }
 
