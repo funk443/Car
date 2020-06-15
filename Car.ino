@@ -118,22 +118,22 @@ void BTcontrol()
 
       while (true)
       {
-        int distance = sonic.distanceInMillimeters();
-        BTtrans.print("@");
-        BTtrans.print(distance);
-        BTtrans.write(13);
-        Serial.print(distance);
-
-        if(BTtrans.available())
+        if (BTtrans.available())
         {
           c = BTtrans.read();
 
-          if(c == 'S')
+          if (c == 'S')
           {
             break;
           }
 
-          delay(500);
+          int distance = sonic.distanceInMillimeters();
+          BTtrans.print("@");
+          BTtrans.print(distance);
+          BTtrans.write(13);
+          Serial.print(distance);
+
+          delay(10);
 
         }
       }
