@@ -10,7 +10,7 @@
 #define ech A4
 
 SoftwareSerial BTtrans(rx, tx);
-AF_DCMotor Lmotor(3);
+AF_DCMotor Lmotor(2);
 AF_DCMotor Rmotor(4);
 Servo Hor;
 Servo Ver;
@@ -26,8 +26,8 @@ void setup() {
 
   Hor.attach(10);
   Ver.attach(9);
-  Hor.write(0);
-  Ver.write(0);
+  Hor.write(90);
+  Ver.write(90);
 
   Lmotor.setSpeed(0);
   Lmotor.run(RELEASE);
@@ -54,9 +54,11 @@ void BTcontrol()
     {
       int Power;
 
-      if (c != '#')
+      Power = BTtrans.parseInt();
+
+      if (BTtrans.read() == '#')
       {
-        Power = BTtrans.parseInt();
+        
         Lmotor.setSpeed(Power);
         Rmotor.setSpeed(Power);
         Serial.print(Power);
@@ -67,12 +69,14 @@ void BTcontrol()
     {
       int degHor;
 
-      if (c != '#')
+      degHor = BTtrans.parseInt();
+
+      if (BTtrans.read() == '#')
       {
-        degHor = BTtrans.parseInt();
         Hor.write(degHor);
-        Serial.print(degHor);
       }
+
+      //Serial.print("ok");
     }
 
     if (c == 'V')
@@ -116,7 +120,7 @@ void BTcontrol()
       Rmotor.run(BACKWARD);
 
 
-      while (true)
+     /* while (true)
       {
         if (BTtrans.available())
         {
@@ -136,7 +140,7 @@ void BTcontrol()
           delay(10);
 
         }
-      }
+      }*/
 
     }
 
