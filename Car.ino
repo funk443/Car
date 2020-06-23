@@ -21,6 +21,7 @@ void BTcontrol();
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  Serial.setTimeout(100);
   BTtrans.begin(9600);
   BTtrans.setTimeout(100);
 
