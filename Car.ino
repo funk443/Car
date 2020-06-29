@@ -1,20 +1,22 @@
-#include <hcsr04.h>
+//#include <hcsr04.h>
 #include <AFMotor.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <Servo.h>
 
-#define rx A1
-#define tx A0
+//#define rx A1
+//#define tx A0
 #define laser A2
 #define tri A3
 #define ech A4
 
-SoftwareSerial BTtrans(rx, tx);
+//SoftwareSerial BTtrans(rx, tx);
 AF_DCMotor Lmotor(2);
-AF_DCMotor Rmotor(4);
+AF_DCMotor Rmotor(1);
 Servo Hor;
 Servo Ver;
-HCSR04 sonic(tri, ech, 20, 4000);
+//HCSR04 sonic(tri, ech, 20, 4000);
+
+bool laserStatus = false;
 
 void BTcontrol();
 
@@ -22,18 +24,21 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.setTimeout(100);
-  BTtrans.begin(9600);
-  BTtrans.setTimeout(100);
+  //BTtrans.begin(9600);
+  //BTtrans.setTimeout(100);
 
   Hor.attach(10);
   Ver.attach(9);
   Hor.write(90);
   Ver.write(90);
+  //delay(100);
+  //Hor.detach();
+  //Ver.detach();
 
-  Lmotor.setSpeed(0);
+  Lmotor.setSpeed(100);
   Lmotor.run(RELEASE);
 
-  Rmotor.setSpeed(0);
+  Rmotor.setSpeed(100);
   Rmotor.run(RELEASE);
 
   pinMode(A2, OUTPUT);
@@ -47,67 +52,64 @@ void loop() {
 
 void BTcontrol()
 {
-  if (BTtrans.available())
+  if (Serial.available())
   {
-    char c = BTtrans.read();
+    char c = Serial.read();
 
     if (c == 'P')
     {
       int Power;
 
-      Power = BTtrans.parseInt();
+      Power = Serial.parseInt();
       Lmotor.setSpeed(Power);
       Rmotor.setSpeed(Power);
-      Serial.print(Power);
+      Serial.println(Power);
 
     }
-
-    if (c == 'H')
+    else if (c == 'H')
     {
       int degHor;
 
-      degHor = BTtrans.parseInt();
+      degHor = Serial.parseInt();
+
       Hor.write(degHor);
 
 
 
       //Serial.print("ok");
     }
-
-    if (c == 'V')
+    else if (c == 'V')
     {
       int degVer;
 
-      degVer = BTtrans.parseInt();
-      Ver.write(degVer);
-      Serial.print(degVer);
-    }
+      degVer = Serial.parseInt();
 
-    if (c == 'F')
+      Ver.write(degVer);
+
+      //Serial.print(degVer);
+    }
+    else if (c == 'F')
     {
-      Serial.print("Forward");
+      //Serial.print("Forward");
       Lmotor.run(FORWARD);
       Rmotor.run(FORWARD);
 
     }
-
-    if (c == 'L')
+    else if (c == 'L')
     {
-      Serial.print("Left");
+      //Serial.print("Left");
       Lmotor.run(BACKWARD);
       Rmotor.run(FORWARD);
     }
-
-    if (c == 'R')
+    else if (c == 'R')
     {
-      Serial.print("Right");
+      //Serial.print("Right");
       Lmotor.run(FORWARD);
       Rmotor.run(BACKWARD);
     }
-
-    if (c == 'B')
+    else if (c == 'B')
     {
-      Serial.print("Backward");
+      //Serial.print("Backward");
       Lmotor.run(BACKWARD);
       Rmotor.run(BACKWARD);
 
@@ -116,7 +118,7 @@ void BTcontrol()
         {
          if (BTtrans.available())
          {
-           c = BTtrans.read();
+           c = Serial.read();
 
            if (c == 'S')
            {
@@ -135,22 +137,17 @@ void BTcontrol()
         }*/
 
     }
-
-    if (c == 'S')
+    else if (c == 'S')
     {
-      Serial.print("Stop");
+      //Serial.print("Stop");
       Lmotor.run(RELEASE);
       Rmotor.run(RELEASE);
     }
-
-    if (c == 'O')
+    else if (c == 'O')
     {
-      digitalWrite(laser, HIGH);
+      laserStatus = !laserStatus;
+      digitalWrite(laser, laserStatus);
     }
 
-    if (c == 'P')
-    {
-      digitalWrite(laser, LOW);
-    }
   }
 }
