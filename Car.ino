@@ -114,7 +114,7 @@ void BTcontrol()
       Rmotor.run(BACKWARD);
     }
 
-    if (c == 'H')
+    if (c == 'B')
     {
       Serial.print("Backward");
       Lmotor.run(BACKWARD);
