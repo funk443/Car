@@ -56,14 +56,10 @@ void BTcontrol()
       int Power;
 
       Power = BTtrans.parseInt();
+      Lmotor.setSpeed(Power);
+      Rmotor.setSpeed(Power);
+      Serial.print(Power);
 
-      if (BTtrans.read() == '#')
-      {
-        
-        Lmotor.setSpeed(Power);
-        Rmotor.setSpeed(Power);
-        Serial.print(Power);
-      }
     }
 
     if (c == 'H')
@@ -71,11 +67,9 @@ void BTcontrol()
       int degHor;
 
       degHor = BTtrans.parseInt();
+      Hor.write(degHor);
 
-      if (BTtrans.read() == '#')
-      {
-        Hor.write(degHor);
-      }
+
 
       //Serial.print("ok");
     }
@@ -84,12 +78,9 @@ void BTcontrol()
     {
       int degVer;
 
-      if (c != '#')
-      {
-        degVer = BTtrans.parseInt();
-        Ver.write(degVer);
-        Serial.print(degVer);
-      }
+      degVer = BTtrans.parseInt();
+      Ver.write(degVer);
+      Serial.print(degVer);
     }
 
     if (c == 'F')
@@ -121,27 +112,27 @@ void BTcontrol()
       Rmotor.run(BACKWARD);
 
 
-     /* while (true)
-      {
-        if (BTtrans.available())
+      /* while (true)
         {
-          c = BTtrans.read();
+         if (BTtrans.available())
+         {
+           c = BTtrans.read();
 
-          if (c == 'S')
-          {
-            break;
-          }
+           if (c == 'S')
+           {
+             break;
+           }
 
-          int distance = sonic.distanceInMillimeters();
-          BTtrans.print("@");
-          BTtrans.print(distance);
-          BTtrans.write(13);
-          Serial.print(distance);
+           int distance = sonic.distanceInMillimeters();
+           BTtrans.print("@");
+           BTtrans.print(distance);
+           BTtrans.write(13);
+           Serial.print(distance);
 
-          delay(10);
+           delay(10);
 
-        }
-      }*/
+         }
+        }*/
 
     }
 
