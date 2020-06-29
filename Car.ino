@@ -11,7 +11,7 @@
 
 //SoftwareSerial BTtrans(rx, tx);
 AF_DCMotor Lmotor(2);
-AF_DCMotor Rmotor(1);
+AF_DCMotor Rmotor(4);
 Servo Hor;
 Servo Ver;
 //HCSR04 sonic(tri, ech, 20, 4000);
