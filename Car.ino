@@ -1,15 +1,15 @@
 //#include <hcsr04.h>
 #include <AFMotor.h>
-//#include <SoftwareSerial.h>
+#include <SoftwareSerial.h>
 #include <Servo.h>
 
-//#define rx A1
-//#define tx A0
+#define rx A1
+#define tx A0
 #define laser A2
 #define tri A3
 #define ech A4
 
-//SoftwareSerial BTtrans(rx, tx);
+SoftwareSerial BTtrans(rx, tx);
 AF_DCMotor Lmotor(2);
 AF_DCMotor Rmotor(4);
 Servo Hor;
@@ -24,8 +24,8 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.setTimeout(100);
-  //BTtrans.begin(9600);
-  //BTtrans.setTimeout(100);
+  BTtrans.begin(9600);
+  BTtrans.setTimeout(100);
 
   Hor.attach(10);
   Ver.attach(9);
@@ -52,25 +52,25 @@ void loop() {
 
 void BTcontrol()
 {
-  if (Serial.available())
+  if (BTtrans.available())
   {
-    char c = Serial.read();
+    char c = BTtrans.read();
 
     if (c == 'P')
     {
       int Power;
 
-      Power = Serial.parseInt();
+      Power = BTtrans.parseInt();
       Lmotor.setSpeed(Power);
       Rmotor.setSpeed(Power);
-      Serial.println(Power);
+      //Serial.println(Power);
 
     }
     else if (c == 'H')
     {
       int degHor;
 
-      degHor = Serial.parseInt();
+      degHor = BTtrans.parseInt();
 
       Hor.write(degHor);
 
@@ -82,7 +82,7 @@ void BTcontrol()
     {
       int degVer;
 
-      degVer = Serial.parseInt();
+      degVer = BTtrans.parseInt();
 
       Ver.write(degVer);
 
